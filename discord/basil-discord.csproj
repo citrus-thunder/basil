@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>basil_discord</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0"/>
+    <Reference Include="..\lib\clisharp.dll" />
+    <Reference Include="..\lib\cardsharp.dll" />
+    <Reference Include="..\lib\rollsharp.dll" />
+  </ItemGroup>
+
+</Project>

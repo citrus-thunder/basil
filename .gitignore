@@ -1,0 +1,6 @@
+.vs
+.vscode
+.Trash*
+bin/
+obj/
+pub/
