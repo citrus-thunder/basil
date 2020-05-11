@@ -25,12 +25,15 @@ namespace Basil.DiscordClient.Services
 			// Hook MessageReceived so we can process each message to see
 			// if it qualifies as a command.
 			_discord.MessageReceived += MessageReceivedAsync;
+
 		}
 
 		public async Task InitializeAsync()
 		{
 			// Register modules that are public and inherit ModuleBase<T>.
 			await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
+
+			await _discord.SetGameAsync("With Yarn");
 		}
 
 		public async Task MessageReceivedAsync(SocketMessage rawMessage)
