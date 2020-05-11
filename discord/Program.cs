@@ -6,9 +6,9 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 
-using Basil.Discord.Services;
+using Basil.DiscordClient.Services;
 
-namespace Basil.Discord
+namespace Basil.DiscordClient
 {
 	// This is a minimal example of using Discord.Net's command
 	// framework - by no means does it show everything the framework

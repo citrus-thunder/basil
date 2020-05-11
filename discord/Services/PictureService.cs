@@ -2,7 +2,9 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Basil.Discord.Services
+using Discord;
+
+namespace Basil.DiscordClient.Services
 {
 	public class PictureService
 	{
@@ -15,6 +17,23 @@ namespace Basil.Discord.Services
 		{
 			var resp = await _http.GetAsync("https://cataas.com/cat");
 			return await resp.Content.ReadAsStreamAsync();
+		}
+		/*
+		public async Task<Stream> SetAvatar(ISelfUser self, string url)
+		{
+			var src = await _http.GetAsync(url);
+			using (var img = await src.Content.ReadAsStreamAsync())
+			{
+				var 
+			}
+
+			await self.ModifyAsync(s => s.Avatar = src.Content.ReadAsStreamAsync());
+		}
+		*/
+		public async Task<Stream> GetImage(string url)
+		{
+			var src = await _http.GetAsync(url);
+			return await src.Content.ReadAsStreamAsync();
 		}
 	}
 }

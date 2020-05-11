@@ -1,19 +1,43 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Discord;
+using Discord.WebSocket;
 using Discord.Commands;
-using Basil.Discord.Services;
+using Basil.DiscordClient.Services;
 
-namespace Basil.Discord.Modules
+namespace Basil.DiscordClient.Modules
 {
 	// Modules must be public and inherit from an IModuleBase
 	public class PublicModule : ModuleBase<SocketCommandContext>
 	{
+		//private readonly DiscordSocketClient _discord;
+
+		public static string[] Greetings =
+		{
+			@"Hewo ◕‿◕",
+			@"Oh... h-hi",
+			@"`purrs`",
+			@"`hides`",
+			@":dragon:",
+			@"`gently nibbles your shoe`",
+			@"`mrrps, then falls back asleep`"
+		};
+
 		// Dependency Injection will fill this value in for us
 		public PictureService PictureService { get; set; }
 
+		[Command("hello")]
+		[Alias("hi", "hey")]
+		public async Task GreetAsync()
+		{
+			var rand = new Random();
+
+			await ReplyAsync(Greetings[rand.Next(0, Greetings.Length)]);
+		}
+
 		[Command("ping")]
-		[Alias("pong", "hello")]
+		[Alias("pong")]
 		public Task PingAsync()
 				=> ReplyAsync("pong!");
 
@@ -35,27 +59,41 @@ namespace Basil.Discord.Modules
 
 			await ReplyAsync(user.ToString());
 		}
-		
-		/*
-		// Ban a user
-		[Command("ban")]
+
+		[Command("makeover")]
 		[RequireContext(ContextType.Guild)]
-		// make sure the user invoking the command can ban
-		[RequireUserPermission(GuildPermission.BanMembers)]
-		// make sure the bot itself can ban
-		[RequireBotPermission(GuildPermission.BanMembers)]
-		public async Task BanUserAsync(IGuildUser user, [Remainder] string reason = null)
+		[RequireUserPermission(GuildPermission.Administrator)]
+		public async Task SetAvatar([Remainder] string text)
 		{
-			await user.Guild.AddBanAsync(user, reason: reason);
-			await ReplyAsync("ok!");
+			try
+			{
+				var stream = await PictureService.GetImage(text);
+
+				stream.Seek(0, SeekOrigin.Begin);
+
+				await Context.Client.CurrentUser.ModifyAsync(s => s.Avatar = new Optional<Discord.Image?>(new Discord.Image(stream)));
+				await ReplyAsync("How do I look?");
+			}
+			catch (Exception ex)
+			{
+				await ReplyAsync($"Oops, I didn't find anything there. I found this instead: \n {ex.GetType()} {ex.Message}");
+			}
 		}
-		*/
 
 		// [Remainder] takes the rest of the command's arguments as one argument, rather than splitting every space
 		[Command("echo")]
-		public Task EchoAsync([Remainder] string text)
-				// Insert a ZWSP before the text to prevent triggering other bots!
-				=> ReplyAsync('\u200B' + text);
+		[Alias("say")]
+		//[RequireUserPermission(GuildPermission.ManageMessages)]
+		public async Task EchoAsync([Remainder] string text)
+		{
+			// Insert a ZWSP before the text to prevent triggering other bots!
+			//await (Context.Channel as ITextChannel).DeleteMessageAsync(Context.Message);
+			//var message = await Context.Channel.GetMessagesAsync(1).FlattenAsync();
+			//await ((ITextChannel) Context.Channel).DeleteMessagesAsync(message);
+			await Context.Channel.DeleteMessageAsync(Context.Message.Id);
+			await ReplyAsync('\u200B' + text);
+		}
+
 
 		// 'params' will parse space-separated elements into a list
 		[Command("list")]

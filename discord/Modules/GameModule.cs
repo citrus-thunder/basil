@@ -2,12 +2,12 @@ using System.IO;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Basil.Discord.Services;
+using Basil.DiscordClient.Services;
 
 using CardSharp;
 using RollSharp;
 
-namespace Basil.Discord.Modules
+namespace Basil.DiscordClient.Modules
 {
 	public class GameModule : ModuleBase<SocketCommandContext>
 	{
