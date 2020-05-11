@@ -18,7 +18,7 @@ namespace Basil.DiscordClient.Modules
 		public async Task RollAsync([Remainder] string text)
 		{
 
-			var validate = @"[0-9]{1,2}d(f|[0-9]{1,2})*\s*([+-]\s*[0-9]{1,2})*";
+			var validate = @"[0-9]{1,2}(d|D)(f|[0-9]{1,2})*\s*([+-]\s*[0-9]{1,2})*";
 
 			var isValid = Regex.Match(text, validate);
 
@@ -33,9 +33,10 @@ namespace Basil.DiscordClient.Modules
 				await ReplyAsync(@"`Rolls around on the floor`");
 			}
 
-			var args = Regex.Split(text, @"([df\+-])");
+			var args = Regex.Split(text, @"([dDf\+-])");
 
 			int.TryParse(args[0].Trim(), out int count);
+			bool explode = args[1].Trim() == "D";
 			bool fateDie = args[2].Trim() == "f";
 			int dieSides = 6;
 
@@ -77,7 +78,7 @@ namespace Basil.DiscordClient.Modules
 
 			//await ReplyAsync($"Rolling {count}d{typeString}{modString}");
 
-			await ReplyAsync(Bot.GetRoll(count, dieSides, modType, modValue));
+			await ReplyAsync(Bot.GetRoll(count, dieSides, modType, modValue, explode));
 		}
 	}
 }

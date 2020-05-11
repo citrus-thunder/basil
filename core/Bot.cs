@@ -5,7 +5,7 @@ namespace Basil
 {
 	public static class Bot
 	{
-		public static string GetRoll(int dieCount, int dieType, int modType = 0, int mod = 0)
+		public static string GetRoll(int dieCount, int dieType, int modType = 0, int mod = 0, bool explode = false)
 		{
 			var rand = new Random();
 			var modString = "";
@@ -25,13 +25,23 @@ namespace Basil
 
 			int total = 0;
 
-			StringBuilder builder = new StringBuilder();
+			StringBuilder builder = new StringBuilder(" ");
 
 			for (var i = 0; i < dieCount; i++)
 			{
-				var roll = rand.Next(0, dieType + 1);
-				builder.Append($"[{roll}]");
+				var roll = rand.Next(1, dieType + 1);
+
 				total += roll;
+
+				var dString = $"[{roll}]";
+
+				if (explode && roll == dieType)
+				{
+					dString = $"**[{roll}!]** ";
+					--i;
+				}
+
+				builder.Append(dString);
 			}
 
 			if (modType != 0)
@@ -39,7 +49,7 @@ namespace Basil
 				total += modType > 0 ? mod : -mod;
 			}
 
-			return $"{dieCount}d{dieType}{modString}: {builder.ToString()} = {total}";
+			return $"{dieCount}d{dieType}{modString}:{builder.ToString()}= {total}";
 		}
 	}
 }
