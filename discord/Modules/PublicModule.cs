@@ -35,7 +35,8 @@ namespace Basil.Discord.Modules
 
 			await ReplyAsync(user.ToString());
 		}
-
+		
+		/*
 		// Ban a user
 		[Command("ban")]
 		[RequireContext(ContextType.Guild)]
@@ -48,6 +49,7 @@ namespace Basil.Discord.Modules
 			await user.Guild.AddBanAsync(user, reason: reason);
 			await ReplyAsync("ok!");
 		}
+		*/
 
 		// [Remainder] takes the rest of the command's arguments as one argument, rather than splitting every space
 		[Command("echo")]

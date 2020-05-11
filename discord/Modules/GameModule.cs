@@ -14,7 +14,8 @@ namespace Basil.Discord.Modules
 		[Command("roll")]
 		public Task RollAsync()
 		{
-			return ReplyAsync("Rolling!");
+			// Note: for Weedle, make it a 1 in 30 chance he says this before rolling the dice.
+			return ReplyAsync(@"`Rolls around on the floor`");
 		}
 	}
 }
