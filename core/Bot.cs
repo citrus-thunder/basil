@@ -10,6 +10,16 @@ namespace Basil
 			var rand = new Random();
 			var modString = "";
 
+			if (dieType <= 1)
+			{
+				explode = false;
+			}
+
+			if (dieType < 0)
+			{
+				dieType = 0;
+			}
+
 			switch (modType)
 			{
 				default:
